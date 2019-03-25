@@ -188,6 +188,9 @@ resource "aws_subnet" "public" {
   availability_zone       = "${element(var.azs, count.index)}"
   map_public_ip_on_launch = "${var.map_public_ip_on_launch}"
 
+  ipv6_cidr_block         = "${cidrsubnet(aws_vpc.this.ipv6_cidr_block, 8, (count.index * 3 ))}"
+  assign_ipv6_address_on_creation  = "${var.assign_ipv6_address_on_creation}"
+
   tags = "${merge(map("Name", format("%s-${var.public_subnet_suffix}-%s", var.name, element(var.azs, count.index))), var.tags, var.public_subnet_tags)}"
 }
 
